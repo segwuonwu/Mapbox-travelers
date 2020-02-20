@@ -1,14 +1,21 @@
-let express = require('express')
-let app = express()
-let ejsLayouts = require('express-ejs-layouts')
+require('dotenv').config();
+const express = require('express');
+const app = express();
+const ejsLayouts = require('express-ejs-layouts');
 
 app.use(ejsLayouts);
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("static"));
 
-app.get('/', (req, res)=>{
-  res.render('home')
-})
+app.get('/', (req, res) => {
+    res.render('home')
+});
 
-app.listen(process.env.PORT || 8000, console.log('🎧 Port 8000 🎧'))
+app.use('/', require('./routes/cities'));
+
+app.get('/*', (req, res) => {
+    res.render('404');
+});
+
+app.listen(process.env.PORT || 8000, console.log(`🎧🍵 You're listening to the smooth sounds of port ${process.env.PORT || 8000} 🎧`));
